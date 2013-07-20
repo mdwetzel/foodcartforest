@@ -1,0 +1,8 @@
+<% provide(:title, "Carts") %>
+
+<h1><%= pluralize(@carts.count, "Cart") %></h1>
+
+<% @carts.each do |cart| %>
+	<h2><%= link_to cart.name, cart %></h2>
+	<p><%= cart.description %></p>
+<% end %>
