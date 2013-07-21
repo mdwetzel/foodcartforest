@@ -3,5 +3,5 @@ class Cart < ActiveRecord::Base
 	validates :name, length: { maximum: 100 }
 	validates :description, length: { minimum: 25, maximum: 5000 }
 
-
+	has_many :comments, dependent: :destroy
 end

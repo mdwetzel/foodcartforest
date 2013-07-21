@@ -3,3 +3,42 @@
 <h1><%= @cart.name %></h1>
 
 <p><%= @cart.description %></p>
+
+<% if user_signed_in? && current_user.admin? %>
+	<%= link_to "Edit Cart", edit_cart_path(@cart) %>
+	<%= link_to "Delete Cart", cart_path(@cart),
+				 method: :delete, data: { confirm: "Are you sure?" }  %>
+<% end %>
+
+<fieldset>
+	<h1>Comments</h1>
+
+	<% if @comments.any? %>
+		<% @comments.each do |comment| %>
+			<article>
+				<header>
+					<h2><%= link_to comment.user.username, comment.user %></h2>
+				</header>
+					<%= comment.body %>
+				<footer>
+					<small><%= comment.created_at %></small>
+				</footer>
+			</article>
+		<% end %>
+	<% else %>
+		<p>
+			No comments.
+		</p>
+	<% end %>
+
+	<% if user_signed_in? %>
+		<h2>Add comment</h2>
+		<%= form_for @comment do |f| %>
+			<%= f.hidden_field 	:cart_id, value: @cart.id %>
+			<%= f.hidden_field 	:user_id, value: current_user.id %>
+			<%= f.label			:body %>	
+			<%= f.text_area		:body %>
+			<%= f.submit class: "button" %>
+		<% end %>
+	<% end %>
+</fieldset>

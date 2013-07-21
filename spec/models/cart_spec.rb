@@ -3,8 +3,7 @@ require 'spec_helper'
 describe Cart do
 	
 	before do
-		@cart = Cart.new name: "XYZ Cart",
-						 description: "XYZ Cart is an amazing cart off of XYZ Street."
+		@cart = Cart.new(cart_attributes)
 	end
 
 	subject { @cart }
