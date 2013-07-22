@@ -18,12 +18,40 @@ describe "Cart pages" do
 		it { should have_selector("h1", text: "#{Cart.count} Carts") }
 		it { should have_link(Cart.first.name, href: cart_path(Cart.first)) }
 		it { should have_text(Cart.first.description[0..25]) }
+		it { should_not have_link("Add New Cart", href: new_cart_path) }
 
 		describe "Clicking a cart link" do
 			it "should redirect to the cart's show page" do
 				click_link(Cart.first.name, href: cart_path(Cart.first))
 
 				expect(current_path).to eq(cart_path(Cart.first))
+			end
+		end
+
+		describe "As an admin user" do
+
+			let(:admin) { User.create!(user_attributes(admin: true, email: "admin@example.com")) }
+
+			before do
+				visit new_user_session_path
+				fill_in "Email", with: admin.email
+				fill_in "Password", with: admin.password
+
+				click_button "Sign in"
+
+				visit carts_path
+
+				expect(current_path).to eq(carts_path)
+			end
+
+			it { should have_link("Add New Cart", href: new_cart_path) }
+
+			describe "Clicking 'add new cart'" do
+				it "should redirect to the add new cart page" do
+					click_link "Add New Cart"
+
+					expect(current_path).to eq(new_cart_path)
+				end
 			end
 		end
 	end
@@ -42,6 +70,11 @@ describe "Cart pages" do
 		it { should have_title(cart.name) }
 		it { should have_selector("h1", cart.name) }
 		it { should have_text(cart.description) }
+		it { should have_text(cart.website) }
+		it { should have_text(cart.twitter) }
+		it { should have_text(cart.facebook) }
+		it { should have_text(cart.phone) }
+		it { should have_text(cart.location) }
 
 		it { should have_selector("h1", text: "1 Comment") }
 		it { should have_text(cart.comments.first.body) }
@@ -55,6 +88,7 @@ describe "Cart pages" do
 			it { should have_selector("article footer small", text: cart.comments.first.created_at) }
 			it { should have_link(cart.comments.first.user.username) }
 			it { should have_selector("article header a", text: cart.comments.first.user.username) }
+			it { should have_selector("article", cart.comments.first.body) }
 
 			describe "Clicking a commentor's username" do
 				it "should redirect to the user's show page" do
@@ -128,6 +162,8 @@ describe "Cart pages" do
 					expect {
 						click_button "Create Comment"
 					}.not_to change(Comment, :count)
+
+					expect(page).to have_text("error") 
 				end
 			end
 		end
@@ -175,12 +211,63 @@ describe "Cart pages" do
 
 		let(:cart) { Cart.create!(cart_attributes) }
 
+		let(:admin) { User.create!(user_attributes(admin: true, email: "admin@example.com")) }
+
 		before do
-			cart.comments.create!(comment_attributes)
+			visit new_user_session_path
+			fill_in "Email", with: admin.email
+			fill_in "Password", with: admin.password
+
+			click_button "Sign in"
 
 			visit edit_cart_path(cart)
+
+			expect(current_path).to eq(edit_cart_path(cart))		
 		end
 
+		it { should have_title("Edit #{cart.name}") }
 		it { should have_selector("h1", text: "Edit #{cart.name}") }
+
+		describe "Clicking 'delete cart'" do
+			it "should delete the cart" do
+				expect {
+					click_link "Delete Cart"
+				}.to change(Cart, :count).by(-1)
+
+				expect(current_path).to eq(carts_path)
+				expect(page).to have_text("Successfully deleted cart!")
+			end
+		end
+	end
+
+	describe "New" do
+		before do
+			visit new_cart_path
+		end
+
+		it { should have_title("Add New Cart") }
+		it { should have_selector("h1", "Add New Cart") }
+
+		describe "Clicking 'create cart'" do
+			it "should create the cart with valid data" do
+				fill_in "Name", with: "XYZ Cart"
+				fill_in "Description", with: "This is a valid description" * 10
+				
+				expect {
+					click_button "Create Cart"
+				}.to change(Cart, :count).by(1)
+
+				expect(current_path).to eq(cart_path(Cart.last))
+				expect(page).to have_text("Successfully created cart!")
+			end
+
+			it "should not create the cart with invalid data" do
+				expect {
+					click_button "Create Cart"
+				}.not_to change(Cart, :count)
+
+				expect(page).to have_text("error")
+			end
+		end
 	end
 end

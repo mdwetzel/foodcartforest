@@ -1,1 +1,10 @@
+<%= provide(:title, "Edit #{@cart.name}") %>
+
 <h1>Edit <%= @cart.name %></h1>
+
+<%= render 'form' %>
+
+<% if user_signed_in? && current_user.admin? %>
+	<%= link_to "Delete Cart", cart_path(@cart),
+			method: :delete, data: { confirm: "Are you sure?" } %>
+<% end %>

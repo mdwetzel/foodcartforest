@@ -6,3 +6,7 @@
 	<h2><%= link_to cart.name, cart %></h2>
 	<p><%= cart.description %></p>
 <% end %>
+
+<% if user_signed_in? && current_user.admin? %>
+	<%= link_to "Add New Cart", new_cart_path %>
+<% end %>

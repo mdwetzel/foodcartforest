@@ -1,0 +1,13 @@
+<% provide(:title, @entry.title) %>
+
+<h1><%= @entry.title %></h1>
+
+<%= @entry.body %>
+
+<footer><%= @entry.created_at %></footer>
+
+<% if user_signed_in? && current_user.admin? %>
+	<%= link_to "Edit Entry", edit_entry_path(@entry) %>
+	<%= link_to "Delete Entry", entry_path(@entry),
+				 method: :delete, data: { confirm: "Are you sure?" }  %>
+<% end %>

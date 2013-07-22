@@ -1,7 +1,12 @@
 def cart_attributes(overrides = {})
 	{
 		name: "XYZ Cart", 
-		description: "An amazing cart on XYZ street."
+		description: "An amazing cart on XYZ street.",
+		location: "123 Street",
+		phone: "(503)545-5454",
+		website: "www.xyzcart.com",
+		facebook: "facebook.com/xyzcart",
+		twitter: "twitter.com/xyzcart"
 	}.merge(overrides)
 end
 
@@ -22,12 +27,27 @@ def user_attributes(overrides = {})
 	}.merge(overrides)
 end
 
+def entry_attributes(overrides = {})
+	{
+		title: "This is a valid entry title",
+		body: "This is the body for a valid entry. " * 5,
+		user_id: 1
+	}.merge(overrides)
+end
+
+User.create!(user_attributes(admin: true, username: "Mark", email: "mark@markwetzel.com"))
+
 User.create!(user_attributes)
+
 
 @carts = []
 
 10.times do 
 	@carts << Cart.create!(cart_attributes)
+end
+
+100.times do
+	Entry.create!(entry_attributes)
 end
 
 @carts.each do |cart|

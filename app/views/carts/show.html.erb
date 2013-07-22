@@ -3,6 +3,11 @@
 <h1><%= @cart.name %></h1>
 
 <p><%= @cart.description %></p>
+<p><%= @cart.location %></p>
+<p><%= @cart.phone %></p>
+<p><%= @cart.website %></p>
+<p><%= @cart.twitter %></p>
+<p><%= @cart.facebook %></p>
 
 <% if user_signed_in? && current_user.admin? %>
 	<%= link_to "Edit Cart", edit_cart_path(@cart) %>
@@ -19,7 +24,7 @@
 				<header>
 					<h2><%= link_to comment.user.username, comment.user %></h2>
 				</header>
-					<%= comment.body %>
+					<%= truncate(comment.body, length: 250, separator: ' ') %>
 				<footer>
 					<small><%= comment.created_at %></small>
 				</footer>
@@ -34,6 +39,7 @@
 	<% if user_signed_in? %>
 		<h2>Add comment</h2>
 		<%= form_for @comment do |f| %>
+			<%= render 'shared/errors', object: @comment %>
 			<%= f.hidden_field 	:cart_id, value: @cart.id %>
 			<%= f.hidden_field 	:user_id, value: current_user.id %>
 			<%= f.label			:body %>	
