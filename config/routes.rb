@@ -1,14 +1,18 @@
 Foodcartforest::Application.routes.draw do
 
+  root      'static_pages#home'
+
+  get "users/index"
+  get "users/show"
+  get "users/edit"
   resources :comments
 
   resources :carts    
   
-  root      'static_pages#home'
-
   get "static_pages/home"
   get "static_pages/about"
   get "static_pages/contact"
+
   devise_for :users
   resources :users
 
