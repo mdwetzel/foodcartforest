@@ -34,7 +34,7 @@ describe "Cart pages" do
 
 		before do
 			User.create!(user_attributes)
-			cart.comments.create!(comment_attributes(user_id: 1))
+			cart.comments.create!(comment_attributes)
 
 			visit cart_path(cart)
 		end
@@ -43,7 +43,7 @@ describe "Cart pages" do
 		it { should have_selector("h1", cart.name) }
 		it { should have_text(cart.description) }
 
-		it { should have_selector("h1", text: "Comments") }
+		it { should have_selector("h1", text: "1 Comment") }
 		it { should have_text(cart.comments.first.body) }
 		it { should have_text(cart.comments.first.created_at) }
 
@@ -55,6 +55,23 @@ describe "Cart pages" do
 			it { should have_selector("article footer small", text: cart.comments.first.created_at) }
 			it { should have_link(cart.comments.first.user.username) }
 			it { should have_selector("article header a", text: cart.comments.first.user.username) }
+
+			describe "Clicking a commentor's username" do
+				it "should redirect to the user's show page" do
+					click_link Comment.first.user.username
+
+					expect(current_path).to eq(user_path(Comment.first.user))
+				end
+			end
+
+			describe "With two comments" do
+				before do
+					cart.comments.create!(comment_attributes) 
+					visit cart_path(cart)
+				end
+
+				it { should have_selector("h1", text: "2 Comments") }
+			end
 		end
 
 		describe "Without comments" do
@@ -66,6 +83,7 @@ describe "Cart pages" do
 			end
 
 			it { should have_text("No comments") }
+			it { should have_selector("h1", text: "0 Comments") }
 		end
 
 		describe "When not logged in" do

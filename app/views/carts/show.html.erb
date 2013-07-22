@@ -11,7 +11,7 @@
 <% end %>
 
 <fieldset>
-	<h1>Comments</h1>
+	<h1><%= pluralize(@comments.count, "Comment") %></h1>
 
 	<% if @comments.any? %>
 		<% @comments.each do |comment| %>
