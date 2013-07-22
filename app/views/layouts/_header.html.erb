@@ -1,10 +1,68 @@
-<div class="row">
-	<header>
-		<h1><%= link_to "Food Cart Forest", root_path %></h1>
-		<nav>
-			<ul>
-				<li><%= link_to "Carts", carts_path %></li>
-			</ul>
-		</nav>
-	</header>
+<div class="contain-to-grid">
+<nav class="top-bar">
+  <ul class="title-area">
+    <!-- Title Area -->
+    <li class="name">
+      <h1><%= link_to "Food Cart Forest", root_path %></h1>
+    </li>
+    <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+    <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+  </ul>
+
+  <section class="top-bar-section">
+    <!-- Left Nav Section -->
+    <ul class="left">
+      <li class="divider"></li>
+      <li><%= link_to "Carts", carts_path %></li>
+      <li class="divider"></li>
+    </ul>
+
+    <!-- Right Nav Section -->
+    <ul class="right">
+      <% if user_signed_in? %>
+	      <li class="divider hide-for-small"></li>
+	      <li class="has-dropdown"><a href="#"><%= current_user.username %></a>
+
+	        <ul class="dropdown">
+
+
+
+	          <li><label>Profile</label></li>
+
+	          <li><%= link_to "Edit Profile", edit_user_path(current_user) %></li>
+
+	          <% if current_user.admin? %>
+		          <li class="divider"></li>
+		          <li><label>Admin</label></li>
+
+		           	 <li class="has-dropdown"><a href="#">Entries</a>
+			            <ul class="dropdown">
+			              <li><label>Entries</label></li>
+			              <li><%= link_to "Create New Entry", new_entry_path %></li>
+			              <li><%= link_to "Manage Entries", "#" %></li>
+			            </ul>
+			          </li>
+
+			          <li class="has-dropdown"><a href="#">Users</a>
+			            <ul class="dropdown">
+			              <li><label>Users</label></li>
+			              <li><%= link_to "Manage Users", users_path %></li>
+			            </ul>
+			          </li>
+		         <% end %>
+
+	          <li><%= link_to "Sign out", destroy_user_session_path, method: :delete %></li>
+	          <li class="divider"></li>
+	        </ul>
+	      </li>
+      <% else %>
+		<li class="divider show-for-small"></li>
+	      <ul>
+	      	<li><%= link_to "Sign up", new_user_registration_path %></li>
+	      	<li><%= link_to "Sign in", new_user_session_path %></li>
+	      </ul>
+      <% end %>
+    </ul>
+  </section>
+</nav>
 </div>

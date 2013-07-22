@@ -20,12 +20,12 @@
     <%= csrf_meta_tags %>
   </head>
 
-  <body>
-    <%= render 'layouts/flash' %>
-      
+  <body>      
     <%= render 'layouts/header' %>
 
     <div class="row">  
+
+        <%= render 'layouts/flash' %>
      
         <%= yield %>
      

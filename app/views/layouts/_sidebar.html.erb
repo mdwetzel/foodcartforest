@@ -1,18 +1,17 @@
-<div class="large-4 columns">
-	<aside>
-		<h2>Latest comments</h2>
+<aside>
+	<h2>Latest comments</h2>
 
-		<% @latest_comments.each do |comment| %>
-			<article>
-				<header>
-				<%= link_to comment.cart.name, comment.cart %>
-				</header>
-				<p><%= comment.body %></p>
-				<footer>
-				<%= link_to comment.user.username, comment.user %> | 
-				<%= time_ago_in_words(comment.created_at) %> ago
-				</footer>
-			</article>
-		<% end %>
-	</aside>
-</div>
+	<% @latest_comments.each do |comment| %>
+		<article>
+			<header>
+			<%= link_to comment.cart.name, comment.cart %>
+			</header>
+			<p><%= comment.body %></p>
+			<footer>
+			<%= link_to comment.user.username, comment.user %> | 
+			<%= time_ago_in_words(comment.created_at) %> ago
+			</footer>
+		</article>
+	<% end %>
+</aside>
+
