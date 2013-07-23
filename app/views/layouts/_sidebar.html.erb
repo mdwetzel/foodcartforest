@@ -1,4 +1,4 @@
-<aside>
+<aside id="page-sidebar">
 	<h2>Latest comments</h2>
 
 	<% @latest_comments.each do |comment| %>
@@ -8,8 +8,7 @@
 			</header>
 			<p><%= comment.body %></p>
 			<footer>
-			<%= link_to comment.user.username, comment.user %> | 
-			<%= time_ago_in_words(comment.created_at) %> ago
+				<small><%= posted(comment) %></small>
 			</footer>
 		</article>
 	<% end %>

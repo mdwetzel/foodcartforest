@@ -1,3 +1,40 @@
 // Place all the styles related to the entries controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+/* Index */
+
+#entries-index {
+
+ 	background-color:#fff;
+ 	border-radius: 5px;
+ 	margin:10px 0;
+ 	padding:10px;
+
+	h1 { 
+		font-size:1.9em;
+	}
+
+	p {
+		font-size:.9em;
+	}
+
+	footer { 
+	
+	}
+
+	hr { 
+	}
+}
+
+.entries-show { 
+	h1 { 
+
+	}
+
+	footer { 
+		small { 
+			font-size:.8em;
+		}
+	}	
+}

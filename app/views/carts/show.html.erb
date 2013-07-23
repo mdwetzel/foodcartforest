@@ -1,50 +1,60 @@
 <% provide(:title, @cart.name) %>
 
-<h1><%= @cart.name %></h1>
+<div class="large-12 columns">
+	<div class="content">
+		<h1><%= @cart.name %></h1>
 
-<p><%= @cart.description %></p>
-<p><%= @cart.location %></p>
-<p><%= @cart.phone %></p>
-<p><%= @cart.website %></p>
-<p><%= @cart.twitter %></p>
-<p><%= @cart.facebook %></p>
+		<p><%= @cart.description %></p>
+		<p><%= @cart.location %></p>
+		<p><%= @cart.phone %></p>
+		<p><%= @cart.website %></p>
+		<p><%= @cart.twitter %></p>
+		<p><%= @cart.facebook %></p>
 
-<% if user_signed_in? && current_user.admin? %>
-	<%= link_to "Edit Cart", edit_cart_path(@cart) %>
-	<%= link_to "Delete Cart", cart_path(@cart),
-				 method: :delete, data: { confirm: "Are you sure?" }  %>
-<% end %>
+		<section id="admin-box">
+			<% if user_signed_in? && current_user.admin? %>
+				<%= link_to "Edit Cart", edit_cart_path(@cart) %> | 
+				<%= link_to "Delete Cart", cart_path(@cart),
+							 method: :delete, data: { confirm: "Are you sure?" }  %>
+			<% end %>
+		</section>
 
-<fieldset>
-	<h1><%= pluralize(@comments.count, "Comment") %></h1>
+		<fieldset class="comments">
+			<legend><%= pluralize(@comments.count, "Comment") %></legend>
 
-	<% if @comments.any? %>
-		<% @comments.each do |comment| %>
-			<article>
-				<header>
-					<h2><%= link_to comment.user.username, comment.user %></h2>
-				</header>
-					<%= truncate(comment.body, length: 250, separator: ' ') %>
-				<footer>
-					<small><%= comment.created_at %></small>
-				</footer>
-			</article>
-		<% end %>
-	<% else %>
-		<p>
-			No comments.
-		</p>
-	<% end %>
+			<% if @comments.any? %>
+				<% @comments.each do |comment| %>
+					<article>
+						<header>
+							<h2><%= link_to comment.user.username, comment.user %></h2>
+						</header>
+							<%= simple_format(comment.body, length: 250, separator: ' ') %>
+						<footer>
+							<small><%= posted(comment) %></small>
+						</footer>
+					</article>
 
-	<% if user_signed_in? %>
-		<h2>Add comment</h2>
-		<%= form_for @comment do |f| %>
-			<%= render 'shared/errors', object: @comment %>
-			<%= f.hidden_field 	:cart_id, value: @cart.id %>
-			<%= f.hidden_field 	:user_id, value: current_user.id %>
-			<%= f.label			:body %>	
-			<%= f.text_area		:body %>
-			<%= f.submit class: "button" %>
-		<% end %>
-	<% end %>
-</fieldset>
+					<hr>
+				<% end %>
+			<% else %>
+				<p>
+					No comments.
+				</p>
+			<% end %>
+
+			<% if user_signed_in? %>
+				<h2>Add comment</h2>
+				<%= form_for @comment do |f| %>
+					<%= render 'shared/errors', object: @comment %>
+					<%= f.hidden_field 	:cart_id, value: @cart.id %>
+					<%= f.hidden_field 	:user_id, value: current_user.id %>
+					<%= f.label			:body %>	
+					<%= f.text_area		:body %>
+					<%= f.submit class: "button" %>
+				<% end %>
+			<% else %>
+				<p><%= link_to "Sign in", new_user_session_path %> to add a comment!</p>
+			<% end %>
+		</fieldset>
+	</div>
+</div>

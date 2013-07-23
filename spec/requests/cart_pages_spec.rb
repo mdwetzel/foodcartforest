@@ -83,6 +83,8 @@ describe "Cart pages" do
 		it { should_not have_link("Edit Cart") }
 		it { should_not have_link("Delete Cart") }
 
+		it { should have_text("Sign in to add a comment!") }
+
 		describe "With comments" do
 			it { should have_selector("article", text: cart.comments.first.body) }
 			it { should have_selector("article footer small", text: cart.comments.first.created_at) }

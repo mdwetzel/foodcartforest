@@ -1,16 +1,22 @@
 <% provide(:title, "Editing #{@user.username}") %>
 
-<h1>Editing <%= @user.username %></h1>
+<div class="large-12 columns">
+	<div class="content">
+		<h1>Editing <%= @user.username %></h1>
 
-<%= form_for @user, html: { multipart: true } do |f| %>
-	<%= f.label			:username %>
-	<%= f.text_field	:username %>
-	<%= f.label			:email %>
-	<%= f.email_field	:email %>
-	<%= f.submit class: "button" %>
-<% end %>
+		<%= form_for @user, html: { multipart: true } do |f| %>
+			<%= f.label			:username %>
+			<%= f.text_field	:username %>
+			<%= f.label			:email %>
+			<%= f.email_field	:email %>
+			<%= f.submit class: "button" %>
+		<% end %>
 
-<% if user_signed_in? && current_user.admin? %>
-	<%= link_to "Delete User", user_path(@user), method: :delete, 
-			data: { confirm: "Are you sure?"} %>
-<% end %>
+		<section id="admin-box">
+			<% if user_signed_in? && current_user.admin? %>
+				<%= link_to "Delete User", user_path(@user), method: :delete, 
+						data: { confirm: "Are you sure?"} %>
+			<% end %>
+		</section>
+	</div>
+</div>

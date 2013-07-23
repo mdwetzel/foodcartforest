@@ -12,15 +12,12 @@
   <section class="top-bar-section">
     <!-- Left Nav Section -->
     <ul class="left">
-      <li class="divider"></li>
       <li><%= link_to "Carts", carts_path %></li>
-      <li class="divider"></li>
     </ul>
 
     <!-- Right Nav Section -->
     <ul class="right">
       <% if user_signed_in? %>
-	      <li class="divider hide-for-small"></li>
 	      <li class="has-dropdown"><%= link_to current_user.username, user_path(current_user) %>
 
 	        <ul class="dropdown">

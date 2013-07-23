@@ -30,7 +30,6 @@ describe "Entry pages" do
 		describe "Clicking an entry" do
 			it "redirects to the entry's show page" do
 				click_link(Entry.last.title, match: :first)
-
 				expect(current_path).to eq(entry_path(Entry.last))
 			end
 		end
@@ -38,7 +37,6 @@ describe "Entry pages" do
 		describe "Clicking an entry's author" do
 			it "redirects to the user's show page" do
 				click_link(Entry.first.user.username, match: :first)
-
 				expect(current_path).to eq(user_path(Entry.first.user))
 			end
 		end
@@ -50,7 +48,6 @@ describe "Entry pages" do
 
 		before do
 			@entry = Entry.create!(entry_attributes)
-
 			visit entry_path(@entry)
 		end
 
@@ -64,11 +61,8 @@ describe "Entry pages" do
 				visit new_user_session_path
 				fill_in "Email", with: admin.email
 				fill_in "Password", with: admin.password
-
 				click_button "Sign in"
-
 				visit entry_path(@entry)
-
 				expect(current_path).to eq(entry_path(@entry))
 			end
 
@@ -78,7 +72,6 @@ describe "Entry pages" do
 			describe "Clicking 'edit entry'" do
 				it "should redirect to the entry's edit page" do
 					click_link "Edit Entry"
-
 					expect(current_path).to eq(edit_entry_path(@entry))
 				end
 			end
@@ -111,6 +104,9 @@ describe "Entry pages" do
 			visit new_entry_path
 		end
 
+		it { should have_title("New Entry") }
+		it { should have_selector("h1", text: "New Entry") }
+
 		it "should create a new entry with valid information" do
 
 			fill_in "Title", with: entry.title
@@ -138,7 +134,6 @@ describe "Entry pages" do
 		let(:entry) { Entry.create!(entry_attributes) }
 
 		before do
-
 			visit new_user_session_path
 			fill_in "Email", with: admin.email
 			fill_in "Password", with: admin.password
@@ -147,6 +142,9 @@ describe "Entry pages" do
 
 			visit edit_entry_path(entry)
 		end
+
+		it { should have_title("Edit Entry") }
+		it { should have_selector("h1", text: "Edit Entry") }
 
 		it "should edit the entry with valid information" do
 			fill_in "Title", with: entry.title

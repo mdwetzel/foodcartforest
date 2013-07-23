@@ -1,0 +1,131 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ *= require foundation_and_overrides
+ *= require_tree .
+ */
+
+ .row { 
+ 	background-color:#726868;
+ 	border-left:5px solid #726868;
+ 	border-right:5px solid #726868;
+ }
+
+ .content { 
+
+	h1 {
+		color: rgb(39, 149, 182);
+	}
+	
+ 	background-color:#fff;
+ 	border-radius: 5px;
+ 	margin:10px 0;
+ 	padding:10px;
+ }
+
+ article { 
+ }
+
+ /* Page header */
+
+ li { 
+
+ }
+
+ /* Page footer */
+
+ #page-footer { 
+ 	margin-top:20px;
+ 	border-top-left-radius: 5px;
+ 	border-top-right-radius: 5px;
+
+ 	text-align:center;
+
+ 	ul {
+ 		text-align:right;
+
+	 	li { 
+	 		display:inline;
+	 	} 	
+ 	}
+ }
+
+/* Sidebar */
+
+#page-sidebar {
+	h2 { 
+		font-size:1.8em;
+		color: #fff;
+
+	}
+
+	article {
+	 	background-color:#fff;
+	 	border-radius: 5px;
+	 	padding:10px;
+	 	margin:10px 0;
+	}
+
+	header a { 
+		font-size:.9em;
+	}
+
+	p { 
+		font-size:.8em;
+		margin:5px 0;
+	}
+
+	footer { 
+		text-align:right;
+	}
+}
+
+/* Pagination */
+
+.pagination {
+	text-align:center;	
+}
+
+.alert {
+	background-color: rgb(255, 255, 255);
+	padding: 5px;
+	margin: 10px 0px;
+	border-radius: 5px 5px 5px 5px;
+	text-align: center;
+	color: rgb(39, 149, 182);
+	font-weight:bold;
+}
+
+#admin-box { 
+	margin:10px 0;
+}
+
+/* Errors */
+
+section#errors { 
+
+	h2 { color: red }
+	h3 { font-size:2em; }
+	
+	li { list-style:none; }
+}
+
+/* Forms */
+
+fieldset { 
+	legend { 
+		font-size:2em;
+	}
+}
+
+textarea { 
+	height:200px !important;
+}

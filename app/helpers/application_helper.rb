@@ -7,4 +7,9 @@ module ApplicationHelper
 			"#{page_title} | #{base_title}"
 		end
 	end
+
+	def posted(post)
+		"Posted #{time_ago_in_words(post.created_at)} ago by  
+				 #{link_to post.user.username, user_path(post.user)}".html_safe
+	end
 end

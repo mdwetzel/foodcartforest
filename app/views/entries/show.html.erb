@@ -1,13 +1,58 @@
 <% provide(:title, @entry.title) %>
+<div class="large-12 columns">
+	<div class="content entries-show">
+		<h1><%= @entry.title %></h1>
 
-<h1><%= @entry.title %></h1>
+		<%= simple_format(@entry.body) %>
 
-<%= @entry.body %>
+		<footer>
+			<small><%= posted(@entry) %></small>
+		</footer>
 
-<footer><%= @entry.created_at %></footer>
+		<% if user_signed_in? && current_user.admin? %>
+			<section id="admin-box">
+				<%= link_to "Edit Entry", edit_entry_path(@entry) %> | 
+				<%= link_to "Delete Entry", entry_path(@entry),
+							 method: :delete, data: { confirm: "Are you sure?" }  %>
+			</section>
+		<% end %>
 
-<% if user_signed_in? && current_user.admin? %>
-	<%= link_to "Edit Entry", edit_entry_path(@entry) %>
-	<%= link_to "Delete Entry", entry_path(@entry),
-				 method: :delete, data: { confirm: "Are you sure?" }  %>
-<% end %>
+		<fieldset class="comments">
+			<legend><%= pluralize(@comments.count, "Comment") %></legend>
+
+			<% if @comments.any? %>
+				<% @comments.each do |comment| %>
+					<article>
+						<header>
+							<h2><%= link_to comment.user.username, comment.user %></h2>
+						</header>
+							<%= simple_format(comment.body, length: 250, separator: ' ') %>
+						<footer>
+							<small><%= posted(comment) %></small>
+						</footer>
+					</article>
+
+					<hr>
+				<% end %>
+			<% else %>
+				<p>
+					No comments.
+				</p>
+			<% end %>
+
+			<% if user_signed_in? %>
+				<h2>Add comment</h2>
+				<%= form_for @comment do |f| %>
+					<%= render 'shared/errors', object: @comment %>
+					<%= f.hidden_field 	:entry_id, value: @entry.id %>
+					<%= f.hidden_field 	:user_id, value: current_user.id %>
+					<%= f.label			:body %>	
+					<%= f.text_area		:body %>
+					<%= f.submit class: "button" %>
+				<% end %>
+			<% else %>
+				<p><%= link_to "Sign in", new_user_session_path %> to add a comment!</p>
+			<% end %>
+		</fieldset>
+	</div>
+</div>

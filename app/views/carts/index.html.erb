@@ -1,12 +1,24 @@
 <% provide(:title, "Carts") %>
 
-<h1><%= pluralize(@carts.count, "Cart") %></h1>
+<div class="large-12 columns">
+	<div class="content">
+		<h1><%= pluralize(@carts.count, "Cart") %></h1>
 
-<% @carts.each do |cart| %>
-	<h2><%= link_to cart.name, cart %></h2>
-	<p><%= cart.description %></p>
-<% end %>
+		<section id="carts-index">
+			<% @carts.each do |cart| %>	
+				<div class="cart">		
+					<%= link_to(image_tag("person.gif"), cart, class: "th") %>
+					<%= link_to cart.name, cart %>
+					<%= cart.location %>, 
+					<%= cart.comments.count %> Comments
+				</div>		
+			<% end %>
+		</section>
 
-<% if user_signed_in? && current_user.admin? %>
-	<%= link_to "Add New Cart", new_cart_path %>
-<% end %>
+		<section id="admin-box">
+			<% if user_signed_in? && current_user.admin? %>
+				<%= link_to "Add New Cart", new_cart_path %>
+			<% end %>
+		</section>
+	</div>
+</div>
