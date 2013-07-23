@@ -55,8 +55,15 @@ describe "User pages" do
 
 		it { should have_title(user.username) }
 		it { should have_selector("h1", text: user.username) }
-		it { should have_content("Comments") }
+		it { should have_selector("th", text: "Comments") }
+		it { should have_selector("td", text: user.comments.count) }
+		it { should have_selector("th", text: "Registered") }
+		it { should have_selector("td", text: user.created_at) }
 		it { should have_selector("img[src$='person.gif']") }
+
+
+		it { should_not have_link("Edit User") }
+		it { should_not have_link("Delete User") }
 
 		describe "As a logged in user" do
 		

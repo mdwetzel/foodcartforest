@@ -2,10 +2,21 @@
 
 <h1><%= @user.username %></h1>
 
-<p>Comments</p>
-<p><%= @user.comments.count %></p>
-<p>Avatar</p>
-<%= image_tag "person.gif" %>
+<table>
+	<tr>
+		<td colspan="2"><%= image_tag "person.gif" %></td>
+	</tr>
+	<tr>
+		<th>Comments</th>
+		<td><%= @user.comments.count %></td>
+	</tr>
+	<tr>
+		<th>Registered</th>
+		<td><%= @user.created_at %></td>
+	</tr>
+</table>
+
+
 
 <% if user_signed_in? && current_user.admin? %>
 	<%= link_to "Edit User", edit_user_path(@user) %>
