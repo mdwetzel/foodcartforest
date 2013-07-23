@@ -199,7 +199,7 @@ describe "Cart pages" do
 
 			describe "Clicking edit" do
 				it "should go to the edit cart page" do
-					click_link "Edit"
+					click_link "Edit", href: edit_cart_path(cart)
 
 					expect(current_path).to eq(edit_cart_path(cart))
 				end

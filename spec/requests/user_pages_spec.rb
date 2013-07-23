@@ -4,9 +4,50 @@ describe "User pages" do
 	
 	subject { page }
 
-	describe "Show" do
+	let(:user) { User.create!(user_attributes) }
+	let(:admin) { User.create!(user_attributes(admin: true, email: "admin@example.com")) }
 
-		let(:user) { User.create!(user_attributes) }
+	describe "Index" do
+		describe "Not logged in" do
+
+			before { visit users_path }
+
+			it "should redirect to the sign in page" do
+				expect(current_path).to eq(new_user_session_path)
+				expect(page).to have_text("You need to sign in")
+			end
+		end
+
+		describe "As a logged in user" do
+
+			before do
+				sign_in user
+				visit users_path
+			end
+
+			it "should redirect to the root path" do
+				expect(current_path).to eq(root_path)
+			end
+		end
+
+		describe "As an admin user" do
+
+			before do
+				sign_in admin
+				visit users_path
+			end
+
+			it { should have_title("Users") }
+			it { should have_selector("h1", text: "Users") }
+			it { should have_link(User.first.username) }
+			it { should have_selector("td", User.first.email) }
+			it { should have_selector("td", User.first.created_at) }
+			it { should have_selector("td", User.first.current_sign_in_ip) }
+			it { should have_selector("td", User.first.current_sign_in_at) }
+		end
+	end
+
+	describe "Show" do
 
 		before do
 			visit user_path(user)
@@ -20,14 +61,8 @@ describe "User pages" do
 		describe "As a logged in user" do
 		
 			before do
-				visit new_user_session_path
-				fill_in "Email", with: user.email
-				fill_in "Password", with: user.password
-
-				click_button "Sign in"
-
+				sign_in user
 				visit user_path(user)
-
 				expect(current_path).to eq(user_path(user))	
 			end
 
@@ -36,14 +71,9 @@ describe "User pages" do
 		end
 
 		describe "As an admin user" do
-			let(:admin) { User.create!(user_attributes(admin: true, email: "admin@example.com")) }
 
 			before do
-				visit new_user_session_path
-				fill_in "Email", with: admin.email
-				fill_in "Password", with: admin.password
-
-				click_button "Sign in"
+				sign_in admin
 
 				visit user_path(user)
 
@@ -77,36 +107,34 @@ describe "User pages" do
 
 	describe "Edit" do
 
-		let(:user) { User.create!(user_attributes) }
+		describe "As a logged in user" do
+			before do
+				sign_in user
 
-		before do
-			visit edit_user_path(user)
-		end
+				visit edit_user_path(user)
+			end
 
-		it { should have_title("Editing #{user.username}") }
-		it { should have_selector("h1", text: "Editing #{user.username}") }
-		it { should have_content("Username") }
-		it { should have_content("Email") }
+			it { should have_title("Editing #{user.username}") }
+			it { should have_selector("h1", text: "Editing #{user.username}") }
+			it { should have_content("Username") }
+			it { should have_content("Email") }
 
-		describe "Clicking 'Update User'" do
+			describe "Clicking 'Update User'" do
 
-			it "should update the user and display a success message" do
-				click_button "Update User"
+				it "should update the user and display a success message" do
 
-				expect(current_path).to eq(edit_user_path(user))
-				expect(page).to have_content("Successfully updated settings.")
+					click_button "Update User"
+
+					expect(current_path).to eq(edit_user_path(user))
+					expect(page).to have_content("Successfully updated settings.")
+				end
 			end
 		end
 		
 		describe "As an admin user" do
-			let(:admin) { User.create!(user_attributes(admin: true, email: "admin@example.com")) }
 
 			before do
-				visit new_user_session_path
-				fill_in "Email", with: admin.email
-				fill_in "Password", with: admin.password
-
-				click_button "Sign in"
+				sign_in admin
 
 				visit edit_user_path(user)
 

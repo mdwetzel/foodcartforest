@@ -1,5 +1,10 @@
 class UsersController < ApplicationController
+
+  before_filter :authenticate_user!, except: [:show]
+  before_filter :authenticate_admin!, except: [:show, :edit, :update]
+
   def index
+    @users = User.all
   end
 
   def show
@@ -28,5 +33,13 @@ class UsersController < ApplicationController
 
   def user_params
   	params.require(:user).permit(:username, :email)
+  end
+
+  private
+
+  def authenticate_admin!
+    unless current_user && current_user.admin?
+      redirect_to new_user_session_path, notice: "You need to sign in before continuing."
+    end
   end
 end

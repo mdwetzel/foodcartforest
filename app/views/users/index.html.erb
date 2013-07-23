@@ -1,2 +1,28 @@
-<h1>Users#index</h1>
-<p>Find me in app/views/users/index.html.erb</p>
+<% provide(:title, "Users") %>
+
+<h1>Users</h1>
+
+<table>
+	<thead>
+		<tr>
+			<th>Username</th>
+			<th>Email</th>
+			<th>Registered</th>
+			<th>Current Sign In</th>
+			<th>Last Sign In</th>
+			<th>Last Sign In IP</th>
+			<th>Current Sign In IP</th>
+		</tr>
+	</thead>
+	<% @users.each do |user| %>
+		<tr>
+			<td><%= link_to user.username, user_path(user) %></td>
+			<td><%= user.email %></td>
+			<td><%= user.created_at %></td>
+			<td><%= user.current_sign_in_at %></td>
+			<td><%= user.last_sign_in_at %></td>
+			<td><%= user.last_sign_in_ip %></td>
+			<td><%= user.current_sign_in_ip %></td>
+		</tr>
+	<% end %>
+</table>
