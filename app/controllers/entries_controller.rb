@@ -3,9 +3,12 @@ class EntriesController < ApplicationController
 	before_filter :authenticate_user!, except: [:index, :show]
 
 	def index
-		@entries = Entry.paginate	per_page: 10,
-									page: params[:page],
-									order: 'created_at desc'
+		# @entries = Entry.paginate	per_page: 10,
+		# 							page: params[:page]
+		# 							order: 'created_at desc'
+
+		@entries = Entry.order("created_at desc").paginate page: params[:page],
+														   per_page: 10
 
 		@latest_comments = Comment.order("created_at desc").limit(5)
 	end

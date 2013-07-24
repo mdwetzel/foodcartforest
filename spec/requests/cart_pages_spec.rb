@@ -17,7 +17,6 @@ describe "Cart pages" do
 		it { should have_title("Carts") }
 		it { should have_selector("h1", text: "#{Cart.count} Carts") }
 		it { should have_link(Cart.first.name, href: cart_path(Cart.first)) }
-		it { should have_text(Cart.first.description[0..25]) }
 		it { should_not have_link("Add New Cart", href: new_cart_path) }
 
 		describe "Clicking a cart link" do
@@ -33,11 +32,7 @@ describe "Cart pages" do
 			let(:admin) { User.create!(user_attributes(admin: true, email: "admin@example.com")) }
 
 			before do
-				visit new_user_session_path
-				fill_in "Email", with: admin.email
-				fill_in "Password", with: admin.password
-
-				click_button "Sign in"
+				sign_in admin
 
 				visit carts_path
 
@@ -76,9 +71,8 @@ describe "Cart pages" do
 		it { should have_text(cart.phone) }
 		it { should have_text(cart.location) }
 
-		it { should have_selector("h1", text: "1 Comment") }
+		it { should have_selector("legend", text: "1 Comment") }
 		it { should have_text(cart.comments.first.body) }
-		it { should have_text(cart.comments.first.created_at) }
 
 		it { should_not have_link("Edit Cart") }
 		it { should_not have_link("Delete Cart") }
@@ -87,14 +81,13 @@ describe "Cart pages" do
 
 		describe "With comments" do
 			it { should have_selector("article", text: cart.comments.first.body) }
-			it { should have_selector("article footer small", text: cart.comments.first.created_at) }
 			it { should have_link(cart.comments.first.user.username) }
 			it { should have_selector("article header a", text: cart.comments.first.user.username) }
 			it { should have_selector("article", cart.comments.first.body) }
 
 			describe "Clicking a commentor's username" do
 				it "should redirect to the user's show page" do
-					click_link Comment.first.user.username
+					click_link(Comment.first.user.username, match: :first)
 
 					expect(current_path).to eq(user_path(Comment.first.user))
 				end
@@ -106,7 +99,7 @@ describe "Cart pages" do
 					visit cart_path(cart)
 				end
 
-				it { should have_selector("h1", text: "2 Comments") }
+				it { should have_selector("legend", text: "2 Comments") }
 			end
 		end
 
@@ -119,7 +112,7 @@ describe "Cart pages" do
 			end
 
 			it { should have_text("No comments") }
-			it { should have_selector("h1", text: "0 Comments") }
+			it { should have_selector("legend", text: "0 Comments") }
 		end
 
 		describe "When not logged in" do
@@ -132,11 +125,7 @@ describe "Cart pages" do
 			let(:user) { User.create!(user_attributes(email: "user@example.org")) }
 
 			before do
-				visit new_user_session_path
-				fill_in "Email", with: user.email
-				fill_in "Password", with: user.password
-
-				click_button "Sign in"
+				sign_in user
 
 				visit cart_path(cart)
 
@@ -172,14 +161,10 @@ describe "Cart pages" do
 
 		describe "As an admin user" do
 
-			let(:admin) { User.create!(user_attributes(admin: true, email: "admin@example.com")) }
+			let(:admin) { User.create!(user_attributes(username: "fwfwf", admin: true, email: "adminfff@example.com")) }
 
 			before do
-				visit new_user_session_path
-				fill_in "Email", with: admin.email
-				fill_in "Password", with: admin.password
-
-				click_button "Sign in"
+				sign_in admin
 
 				visit cart_path(cart)
 
@@ -213,14 +198,11 @@ describe "Cart pages" do
 
 		let(:cart) { Cart.create!(cart_attributes) }
 
-		let(:admin) { User.create!(user_attributes(admin: true, email: "admin@example.com")) }
+		let(:admin) { User.create!(user_attributes(username: "dqwdqwd", admin: true,
+													 email: "adqwdqwd@wfr.com")) }
 
 		before do
-			visit new_user_session_path
-			fill_in "Email", with: admin.email
-			fill_in "Password", with: admin.password
-
-			click_button "Sign in"
+			sign_in admin
 
 			visit edit_cart_path(cart)
 

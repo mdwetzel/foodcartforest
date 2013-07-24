@@ -5,7 +5,7 @@ describe "User pages" do
 	subject { page }
 
 	let(:user) { User.create!(user_attributes) }
-	let(:admin) { User.create!(user_attributes(admin: true, email: "admin@example.com")) }
+	let(:admin) { User.create!(user_attributes(username: "Blah", admin: true, email: "admin@example.434")) }
 
 	describe "Index" do
 		describe "Not logged in" do

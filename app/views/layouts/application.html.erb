@@ -32,5 +32,7 @@
     <%= render 'layouts/footer' %>
     
     <%= javascript_include_tag "application" %>
+
+    <%= render 'layouts/ga' if Rails.env == 'production'%>
   </body>
 </html>
