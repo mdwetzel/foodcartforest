@@ -4,7 +4,7 @@ describe "Entry pages" do
 	
 	subject { page }
 
-				let(:admin) { User.create!(user_attributes(admin: true, email: "admin@example.com")) }
+	let(:admin) { User.create!(user_attributes(admin: true)) }
 
 
 	describe "Index" do
@@ -22,10 +22,10 @@ describe "Entry pages" do
 
 		it { should have_selector("article header h1", text: Entry.first.title) }
 		it { should have_selector("article", text: Entry.first.body) }
-		it { should have_selector("article footer small", text: Entry.first.created_at) }
 		it { should have_selector("article footer small", text: Entry.first.user.username) }
 		it { should have_link(Entry.first.title, entry_path(Entry.first)) }
 		it { should have_link(Entry.first.user.username, user_path(Entry.first.user)) }
+		it { should have_text("No comments yet.") } 
 
 		describe "Clicking an entry" do
 			it "redirects to the entry's show page" do
@@ -44,9 +44,8 @@ describe "Entry pages" do
 
 	describe "Show" do
 
-		User.create!(user_attributes)
-
 		before do
+			User.create!(user_attributes(email: "blah@blah.org"))
 			@entry = Entry.create!(entry_attributes)
 			visit entry_path(@entry)
 		end
@@ -54,16 +53,11 @@ describe "Entry pages" do
 		it { should have_title(@entry.title) }
 		it { should have_selector("h1", @entry.title) }
 		it { should have_text(@entry.body) }
-		it { should have_selector("footer", @entry.created_at) }
 
 		describe "As an admin user" do
 			before do
-				visit new_user_session_path
-				fill_in "Email", with: admin.email
-				fill_in "Password", with: admin.password
-				click_button "Sign in"
+				sign_in admin
 				visit entry_path(@entry)
-				expect(current_path).to eq(entry_path(@entry))
 			end
 
 			it { should have_link("Edit Entry", edit_entry_path(@entry)) }
@@ -94,13 +88,7 @@ describe "Entry pages" do
 		let(:entry) { Entry.create!(entry_attributes) }
 
 		before do
-
-			visit new_user_session_path
-			fill_in "Email", with: admin.email
-			fill_in "Password", with: admin.password
-
-			click_button "Sign in"
-
+			sign_in admin
 			visit new_entry_path
 		end
 
@@ -134,12 +122,7 @@ describe "Entry pages" do
 		let(:entry) { Entry.create!(entry_attributes) }
 
 		before do
-			visit new_user_session_path
-			fill_in "Email", with: admin.email
-			fill_in "Password", with: admin.password
-
-			click_button "Sign in"
-
+			sign_in admin
 			visit edit_entry_path(entry)
 		end
 
