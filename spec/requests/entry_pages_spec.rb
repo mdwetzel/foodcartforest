@@ -6,7 +6,6 @@ describe "Entry pages" do
 
 	let(:admin) { User.create!(user_attributes(username: "fwfef", admin: true, email: "admin@example.ff")) }
 
-
 	describe "Index" do
 
 		before do
@@ -25,6 +24,7 @@ describe "Entry pages" do
 		it { should have_selector("article footer small", text: Entry.first.user.username) }
 		it { should have_link(Entry.first.title, entry_path(Entry.first)) }
 		it { should have_link(Entry.first.user.username, user_path(Entry.first.user)) }
+		it { should have_text("No comments yet.") } 
 
 		describe "Clicking an entry" do
 			it "redirects to the entry's show page" do
@@ -43,10 +43,9 @@ describe "Entry pages" do
 
 	describe "Show" do
 
-	
 
 		before do
-				User.create!(user_attributes)
+			User.create!(user_attributes(email: "blah@blah.org"))
 			@entry = Entry.create!(entry_attributes)
 			visit entry_path(@entry)
 		end
@@ -54,7 +53,6 @@ describe "Entry pages" do
 		it { should have_title(@entry.title) }
 		it { should have_selector("h1", @entry.title) }
 		it { should have_text(@entry.body) }
-		it { should have_selector("footer", @entry.created_at) }
 
 		describe "As an admin user" do
 			before do
