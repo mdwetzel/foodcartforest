@@ -9,4 +9,10 @@ class User < ActiveRecord::Base
 
   has_many :comments, dependent: :destroy
   has_many :entries, dependent: :destroy
+
+  mount_uploader :avatar, ImageUploader
+
+  validates :avatar, allow_blank: true, length: { maximum: 1.megabyte.to_i, 
+  				message: "is too large (maximum size is 1MB" }
+
 end

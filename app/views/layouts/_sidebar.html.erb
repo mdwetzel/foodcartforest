@@ -1,16 +1,20 @@
 <aside id="page-sidebar">
 	<h2>Latest comments</h2>
 
-	<% @latest_comments.each do |comment| %>
-		<article>
-			<header>
-			<%= link_to comment.cart.name, comment.cart %>
-			</header>
-			<p><%= comment.body %></p>
-			<footer>
-				<small><%= posted(comment) %></small>
-			</footer>
-		</article>
+	<% if @latest_comments.any? %>
+		<% @latest_comments.each do |comment| %>
+			<article>
+				<header>
+				<%= link_to comment.cart.name, comment.cart %>
+				</header>
+				<p><%= comment.body %></p>
+				<footer>
+					<small><%= posted(comment) %></small>
+				</footer>
+			</article>
+		<% end %>
+	<% else %>
+		<p>No comments yet.</p>
 	<% end %>
 </aside>
 

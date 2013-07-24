@@ -1,4 +1,7 @@
 class CartsController < ApplicationController
+
+  before_filter :authenticate_admin!, except: [:index, :show]
+
   def index
   	@carts = Cart.all
   end

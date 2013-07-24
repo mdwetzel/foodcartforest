@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe Comment do
+	
 	before do
 		@comment = Comment.new(comment_attributes)
 	end

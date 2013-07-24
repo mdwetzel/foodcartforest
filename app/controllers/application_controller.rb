@@ -12,4 +12,16 @@ class ApplicationController < ActionController::Base
   	devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:username, :email,
 													:password, :password_confirmation) }
   end
+
+  private
+
+  def authenticate_admin!
+    unless current_user 
+      redirect_to new_user_session_path, notice: "You need to sign in before continuing."
+    else
+      unless current_user.admin?
+        redirect_to root_path
+      end
+    end
+  end
 end

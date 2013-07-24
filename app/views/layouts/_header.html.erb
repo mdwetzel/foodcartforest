@@ -18,7 +18,7 @@
     <!-- Right Nav Section -->
     <ul class="right">
       <% if user_signed_in? %>
-	      <li class="has-dropdown"><%= link_to current_user.username, user_path(current_user) %>
+	      <li class="has-dropdown"><%= link_to current_user.username, '#' %>
 
 	        <ul class="dropdown">
 
@@ -26,6 +26,7 @@
 
 	          <li><label>Profile</label></li>
 
+			  <li><%= link_to "View Profile", user_path(current_user) %></li>
 	          <li><%= link_to "Edit Profile", edit_user_path(current_user) %></li>
 
 	          <% if current_user.admin? %>

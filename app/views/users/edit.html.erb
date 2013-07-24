@@ -5,10 +5,11 @@
 		<h1>Editing <%= @user.username %></h1>
 
 		<%= form_for @user, html: { multipart: true } do |f| %>
-			<%= f.label			:username %>
-			<%= f.text_field	:username %>
+			<%= render 'shared/errors', object: @user %>
 			<%= f.label			:email %>
 			<%= f.email_field	:email %>
+			<%= f.label			:avatar %>
+			<%= f.file_field	:avatar %>
 			<%= f.submit class: "button" %>
 		<% end %>
 

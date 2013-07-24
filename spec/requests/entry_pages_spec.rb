@@ -5,6 +5,7 @@ describe "Entry pages" do
 	subject { page }
 
 	let(:admin) { User.create!(user_attributes(username: "fwfef", admin: true, email: "admin@example.ff")) }
+	let(:user) { User.create!(user_attributes) }
 
 	describe "Index" do
 
@@ -41,8 +42,40 @@ describe "Entry pages" do
 		end
 	end
 
-	describe "Show" do
+	describe "Manage" do
 
+		before { visit manage_entries_path }
+
+		describe "Not logged in" do
+			it "should redirect to the login page" do
+				expect(current_path).to eq(new_user_session_path)
+			end
+		end
+
+		describe "Logged in as a user" do
+
+			before do
+				sign_in user
+				visit manage_entries_path
+			end
+
+			it "should redirect to the login page" do
+				expect(current_path).to eq(root_path)
+			end
+		end
+
+		describe "As an admin user" do
+			before do
+				sign_in admin
+				visit manage_entries_path
+			end
+
+			it { should have_title("Manage Entries") }
+			it { should have_selector("h1", text: "Manage Entries") }
+		end
+	end
+
+	describe "Show" do
 
 		before do
 			User.create!(user_attributes(email: "blah@blah.org"))

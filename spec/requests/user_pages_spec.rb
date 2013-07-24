@@ -61,7 +61,6 @@ describe "User pages" do
 		it { should have_selector("td", text: user.created_at) }
 		it { should have_selector("img[src$='person.gif']") }
 
-
 		it { should_not have_link("Edit User") }
 		it { should_not have_link("Delete User") }
 
@@ -123,8 +122,8 @@ describe "User pages" do
 
 			it { should have_title("Editing #{user.username}") }
 			it { should have_selector("h1", text: "Editing #{user.username}") }
-			it { should have_content("Username") }
 			it { should have_content("Email") }
+			it { should have_content("Avatar") }
 
 			describe "Clicking 'Update User'" do
 

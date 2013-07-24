@@ -1,12 +1,10 @@
 Foodcartforest::Application.routes.draw do
 
+  get "entries/manage" => "entries#manage", as: "manage_entries"
   resources :entries
 
-  root      'entries#index'
 
-  get "users/index"
-  get "users/show"
-  get "users/edit"
+  root      'entries#index'
   resources :comments
 
   resources :carts    

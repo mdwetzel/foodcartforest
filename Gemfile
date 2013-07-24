@@ -21,6 +21,7 @@ group :test do
 	gem 'capybara'
 end
 
+gem "rmagick"
 gem "database_cleaner", "~> 1.0.1"
 gem 'devise'
 gem 'will_paginate'
