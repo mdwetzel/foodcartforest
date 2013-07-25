@@ -1,7 +1,7 @@
 class EntriesController < ApplicationController
 
 	before_filter :authenticate_user!, except: [:index, :show]
-	before_filter :authenticate_admin!, except: [:show, :edit, :index]
+	before_filter :authenticate_admin!, except: [:show, :index]
 
 	def index
 		# @entries = Entry.paginate	per_page: 10,
