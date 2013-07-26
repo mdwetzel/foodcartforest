@@ -15,13 +15,14 @@ class EntriesController < ApplicationController
 	end
 
 	def manage
-
+		@entries = Entry.order("created_at desc").paginate page: params[:page],
+														   per_page: 100
 	end
 
 	def destroy
 		@entry = Entry.find(params[:id])
 		@entry.destroy
-		redirect_to entries_path, notice: "Successfully deleted entry!"
+		redirect_to manage_entries_path, notice: "Successfully deleted entry!"
 	end
 
 	def edit

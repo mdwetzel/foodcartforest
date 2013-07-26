@@ -3,9 +3,27 @@
 <div class="large-12 columns">
 	<div class="content entries-show">
 		
-		<h1>Manage Entries</h1>
+		<h1>Managing <%= @entries.count %> Entries</h1>
 
-
-
+		<table>
+			<thead>
+				<tr>
+					<th>Title</th>
+					<th>Body</th>
+					<th>Created</th>
+				</tr>
+			</thead>
+			<% @entries.each do |entry| %>
+				<tr>
+					<td class="title"><%= link_to entry.title, entry %> 
+						<%= link_to "(Edit)", edit_entry_path(entry) %> | 
+						<%= link_to "(Delete)", entry_path(entry), method: :delete, 
+													data: { confirm: "Are you sure?"} %>
+					</td>
+					<td class="truncated-body"><%= truncate(entry.body, length: 45) %></td>
+					<td class="created"><%= entry.created_at %></td>
+				</tr>
+			<% end %>
+		</table>
 	</div>
 </div>

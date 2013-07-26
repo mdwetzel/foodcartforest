@@ -72,12 +72,33 @@ describe "Entry pages" do
 
 		describe "As an admin user" do
 			before do
+				@entries = []
+				101.times do |counter|
+					@entries << Entry.create!(entry_attributes)
+				end
 				sign_in admin
 				visit manage_entries_path
 			end
 
 			it { should have_title("Manage Entries") }
-			it { should have_selector("h1", text: "Manage Entries") }
+			it { should have_selector("h1", text: "Managing #{@entries.count} Entries") }
+			it { should have_selector("td.title", text: @entries.first.title, minimum: 1) }
+			it { should have_selector("td.title", text: @entries.first.title, maximum: 100) }
+			it { should have_link(@entries.first.title, match: :first) }
+			it { should have_link("(Edit)", href: edit_entry_path(@entries.last)) }
+			it { should have_link("(Delete)", href: entry_path(@entries.last)) }
+			it { should have_selector("td.created", text: @entries.first.created_at) }
+
+			describe "Clicking 'delete'" do
+				it "should redirect to manage_entries_path" do
+					expect { 
+						click_link("Delete", match: :first)
+					}.to change(Entry, :count).by(-1)
+
+					expect(page).to have_text("Successfully deleted entry!")
+					expect(current_path).to eq(manage_entries_path)
+				end
+			end
 		end
 	end
 
@@ -121,12 +142,12 @@ describe "Entry pages" do
 			end
 
 			describe "Clicking 'delete entry'" do
-				it "should delete the entry" do
+				it "should delete the entry and redirect to the manage_entries_path" do
 					expect { 
 						click_link "Delete Entry"
 					}.to change(Entry, :count).by(-1)
 
-					expect(current_path).to eq(entries_path)
+					expect(current_path).to eq(manage_entries_path)
 					expect(page).to have_text("Successfully deleted entry!")
 				end
 			end
