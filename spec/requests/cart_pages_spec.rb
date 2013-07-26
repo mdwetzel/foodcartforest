@@ -199,6 +199,20 @@ describe "Cart pages" do
 			it { should have_title("Edit #{cart.name}") }
 			it { should have_selector("h1", text: "Edit #{cart.name}") }
 
+			describe "Clicking 'update cart'" do
+				it "should update the cart" do
+
+
+					click_button "Update Cart"
+
+					expect(current_path).to eq(cart_path(cart))
+
+					expect(page).to have_text("Successfully updated cart!")
+
+					
+				end
+			end
+
 			describe "Clicking 'delete cart'" do
 				it "should delete the cart" do
 					expect {
@@ -242,8 +256,14 @@ describe "Cart pages" do
 
 			describe "Clicking 'create cart'" do
 				it "should create the cart with valid data" do
-					fill_in "Name", with: "XYZ Cart"
-					fill_in "Description", with: "This is a valid description" * 10
+
+					fill_in "Name", with: "ABC Cart"
+					fill_in	"Description", with: "An amazing cart on ABC street."
+					fill_in	"Location", with: "4920 ABC street"
+					fill_in	"Phone", with: "(555) 555-5555"
+					fill_in	"Website", with: "www.fakesite.com"
+					fill_in	"Twitter", with: "www.faketwitter.com"
+					fill_in	"Facebook", with: "www.fakefacebook.com"
 					
 					expect {
 						click_button "Create Cart"
@@ -251,6 +271,13 @@ describe "Cart pages" do
 
 					expect(current_path).to eq(cart_path(Cart.last))
 					expect(page).to have_text("Successfully created cart!")
+
+					expect(page).to have_text("An amazing cart on ABC street.")
+					expect(page).to have_text("(555) 555-5555")
+					expect(page).to have_text("www.fakesite.com")
+					expect(page).to have_text("www.faketwitter.com")
+					expect(page).to have_text("4920 ABC street")
+					expect(page).to have_text("www.fakefacebook.com")
 				end
 
 				it "should not create the cart with invalid data" do

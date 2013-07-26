@@ -4,7 +4,16 @@
 	<%= f.text_field	:name %>
 	<%= f.label			:description %>
 	<%= f.text_area		:description %>
-	<%= f.label			:image %>
-	<%= f.file_field	:image %>
+	<%= f.label			:location %>
+	<%= f.text_field	:location %>
+	<%= f.label			:phone %>
+	<%= f.text_field	:phone %>
+	<%= f.label			:website %>
+	<%= f.text_field	:website %>
+	<%= f.label			:twitter %>
+	<%= f.text_field	:twitter %>
+	<%= f.label			:facebook %>
+	<%= f.text_field	:facebook %>
+
 	<%= f.submit class: "button" %>
 <% end %>

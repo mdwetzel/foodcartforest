@@ -15,4 +15,6 @@ class User < ActiveRecord::Base
   validates :avatar, allow_blank: true, length: { maximum: 1.megabyte.to_i, 
   				message: "is too large (maximum size is 1MB" }
 
+  validates_uniqueness_of :username
+
 end

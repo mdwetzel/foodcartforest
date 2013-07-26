@@ -4,6 +4,4 @@ class Cart < ActiveRecord::Base
 	validates :description, length: { minimum: 25, maximum: 5000 }
 
 	has_many :comments, dependent: :destroy
-
-	mount_uploader :image, ImageUploader
 end

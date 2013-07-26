@@ -1,7 +1,6 @@
 class UsersController < ApplicationController
-
   before_filter :authenticate_user!, except: [:show]
-  before_filter :authenticate_admin!, only: [:index]
+  before_filter :authenticate_admin!, only: [:index, :edit]
 
   def index
     @users = User.all
@@ -28,7 +27,7 @@ class UsersController < ApplicationController
   def destroy
   	@user = User.find(params[:id])
   	@user.destroy
-	  redirect_to users_path, notice: "Successfully destroyed the user!"
+	  redirect_to users_path, notice: "Successfully deleted the user!"
   end
 
   def user_params
