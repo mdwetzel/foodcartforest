@@ -18,6 +18,14 @@ def comment_attributes(overrides = {})
 	}.merge(overrides)
 end
 
+def entry_comment_attributes(overrides = {})
+	{
+		user_id: 1,
+		entry_id: 1,
+		body: "This is a comment. " * 5
+	}.merge(overrides)
+end
+
 def user_attributes(overrides = {})
 	{
 		username: "Example",

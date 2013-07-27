@@ -10,8 +10,8 @@ class EntriesController < ApplicationController
 
 	def show
 		@entry = Entry.find(params[:id])
-		@comments = Comment.all
-		@comment = Comment.new
+		@comments = @entry.entry_comments
+		@entry_comment = EntryComment.new
 	end
 
 	def manage

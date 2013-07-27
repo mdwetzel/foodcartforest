@@ -42,8 +42,8 @@
 
 			<% if user_signed_in? %>
 				<h2>Add comment</h2>
-				<%= form_for @comment do |f| %>
-					<%= render 'shared/errors', object: @comment %>
+				<%= form_for @entry_comment do |f| %>
+					<%= render 'shared/errors', object: @entry_comment %>
 					<%= f.hidden_field 	:entry_id, value: @entry.id %>
 					<%= f.hidden_field 	:user_id, value: current_user.id %>
 					<%= f.label			:body %>	

@@ -123,6 +123,25 @@ describe "Entry pages" do
 
 			it { should_not have_link("Edit Entry", edit_entry_path(@entry)) }
 			it { should_not have_link("Delete Entry", entry_path(@entry)) }
+
+			describe "Clicking 'create entry comment' with valid data" do
+				it "should create the entry comment and redirect to its parent entry" do
+					fill_in "Body", with: "This is a valid comment!" * 5
+					expect {
+						click_button "Create Entry comment"
+					}.to change(EntryComment, :count).by (1)
+
+					expect(current_path).to eq(entry_path(@entry))
+				end
+			end
+
+			describe "Clicking 'create entry comment' with invalid data" do
+				it "should not create the entry and render the entry show page" do
+					expect {
+						click_button "Create Entry comment" 
+					}.not_to change(EntryComment, :count)
+				end
+			end
 		end
 
 		describe "As an admin user" do

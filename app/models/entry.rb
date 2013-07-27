@@ -5,4 +5,6 @@ class Entry < ActiveRecord::Base
 	validates :body, length: { minimum: 50, maximum: 10000 }
 
 	belongs_to :user
+
+	has_many :entry_comments, dependent: :destroy
 end
