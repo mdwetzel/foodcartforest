@@ -77,6 +77,10 @@ describe "Cart pages" do
 			it { should_not have_link("Edit Cart") }
 			it { should_not have_link("Delete Cart") }
 
+			it { should have_selector("h2", text: "Hours") }
+
+			it { should have_selector("td.day", text: "Sunday") }
+
 			it { should have_text("Sign in to add a comment!") }
 
 			describe "With comments" do

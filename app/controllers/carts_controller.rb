@@ -17,6 +17,7 @@ class CartsController < ApplicationController
 
   def new
     @cart = Cart.new
+    7.times { @cart.hours_of_operation.build }
   end
 
   def update
@@ -47,6 +48,7 @@ class CartsController < ApplicationController
 
   def cart_params
     params.require(:cart).permit(:name, :description, :location,
-                     :phone, :website, :twitter, :facebook)
+                     :phone, :website, :twitter, :facebook,
+                      hours_of_operation_attributes: [:open, :close, :day, :cart_id] )
   end
 end
