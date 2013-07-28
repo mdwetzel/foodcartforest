@@ -7,7 +7,7 @@
 		<section id="carts-index">
 			<% @carts.each do |cart| %>	
 				<div class="cart">		
-					<%= link_to(image_tag("person.gif"), cart, class: "th") %>
+					<%= cart_thumbnail(cart) %>
 					<%= link_to cart.name, cart %>
 					<%= cart.location %>, 
 					<%= cart.comments.count %> Comments

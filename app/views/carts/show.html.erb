@@ -4,12 +4,14 @@
 	<div class="content">
 		<h1><%= @cart.name %></h1>
 
+		<%= image_tag @cart.cart_picture %>
+
 		<p><%= @cart.description %></p>
 		<p><%= @cart.location %></p>
 		<p><%= @cart.phone %></p>
-		<p><%= @cart.website %></p>
-		<p><%= @cart.twitter %></p>
-		<p><%= @cart.facebook %></p>
+		<p><%= link_to_external @cart.website %></p>
+		<p><%= link_to_external @cart.twitter %></p>
+		<p><%= link_to_external @cart.facebook %></p>
 
 		<section id="admin-box">
 			<% if user_signed_in? && current_user.admin? %>

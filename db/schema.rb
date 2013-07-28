@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130727172405) do
+ActiveRecord::Schema.define(version: 20130728000632) do
 
   create_table "carts", force: true do |t|
     t.text     "description"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 20130727172405) do
     t.string   "website"
     t.string   "facebook"
     t.string   "twitter"
+    t.string   "cart_picture"
   end
 
   create_table "comments", force: true do |t|
@@ -46,6 +47,27 @@ ActiveRecord::Schema.define(version: 20130727172405) do
     t.text     "body"
     t.string   "title"
     t.integer  "entry_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "galleries", force: true do |t|
+    t.integer  "cart_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "hours_of_operations", force: true do |t|
+    t.integer  "cart_id"
+    t.integer  "day"
+    t.time     "open"
+    t.time     "close"
+    t.boolean  "closed"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "pictures", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
   end
