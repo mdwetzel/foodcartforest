@@ -4,9 +4,6 @@
 	<% if @latest_comments.any? %>
 		<% @latest_comments.each do |comment| %>
 			<article>
-				<header>
-				<%= link_to comment.cart.name, comment.cart %>
-				</header>
 				<p><%= comment.body %></p>
 				<footer>
 					<small><%= posted(comment) %></small>
@@ -14,7 +11,9 @@
 			</article>
 		<% end %>
 	<% else %>
-		<p>No comments yet.</p>
+		<article>
+			<p>No comments yet.</p>
+		</article>		
 	<% end %>
 </aside>
 

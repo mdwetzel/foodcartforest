@@ -19,11 +19,7 @@
     <ul class="right">
       <% if user_signed_in? %>
 	      <li class="has-dropdown"><%= link_to current_user.username, '#' %>
-
 	        <ul class="dropdown">
-
-
-
 	          <li><label>Profile</label></li>
 
 			  <li><%= link_to "View Profile", user_path(current_user) %></li>
@@ -45,6 +41,14 @@
 			            <ul class="dropdown">
 			              <li><label>Users</label></li>
 			              <li><%= link_to "Manage Users", users_path %></li>
+			            </ul>
+			          </li>
+
+			          <li class="has-dropdown"><a href="#">Carts</a>
+			            <ul class="dropdown">
+			              <li><label>Carts</label></li>
+			              <li><%= link_to "Create New Cart", new_cart_path %></li>
+			              <li><%= link_to "Manage Carts", carts_path %></li>
 			            </ul>
 			          </li>
 		         <% end %>

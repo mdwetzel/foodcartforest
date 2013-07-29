@@ -32,7 +32,15 @@
 						</header>
 							<%= simple_format(comment.body, length: 250, separator: ' ') %>
 						<footer>
-							<small><%= posted(comment) %></small>
+							<small>
+								<%= posted(comment) %>
+
+								<% if user_signed_in? %>
+									<% if current_user == comment.user || current_user.admin? %>
+										<%= link_to "(Edit Comment)", edit_comment_path(comment) %>
+									<% end %>
+								<% end %>
+							</small>
 						</footer>
 					</article>
 

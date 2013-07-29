@@ -120,7 +120,33 @@ describe "Cart pages" do
 			it { should have_selector("h2", text: "Add comment") }
 			it { should have_selector("textarea") }
 
+			describe "After having created a comment" do
+
+				before do
+					@user2 = User.create!(user_attributes(username: "User2", email: "user2@example.org"))
+					@comment = user.comments.create(comment_attributes(cart_id: cart.id))
+					@comment2 = @user2.comments.create(comment_attributes(cart_id: cart.id))
+					visit cart_path(cart)
+				end
+
+				it "the user should be able to edit his own comment" do
+					expect(page).to have_link("(Edit Comment)", href: edit_comment_path(@comment))
+
+					click_link "(Edit Comment)"
+
+					expect(current_path).to eq(edit_comment_path(@comment))
+				end
+
+				it "the user shouldn't be able to edit another user's comment" do
+					expect(page).not_to have_link("(Edit Comment)", href: edit_comment_path(@comment2))
+				end
+			end
+
 			describe "Clicking Create Comment" do
+				before do
+					visit cart_path(cart)
+				end
+
 				it "should create the comment with valid data" do
 					fill_in "Body", with: "This is a sample comment" * 5
 
@@ -144,12 +170,26 @@ describe "Cart pages" do
 
 		describe "As an admin user" do
 			before do
+				@comment = user.comments.create(comment_attributes(
+					user_id: user.id,
+					cart_id: cart.id))
+
 				sign_in admin
 				visit cart_path(cart)
 			end
 
 			it { should have_link("Edit Cart", href: edit_cart_path(cart)) }
 			it { should have_link("Delete Cart"), href: cart_path(cart) }
+
+			describe "When a user has created a comment" do
+				it "the admin should be able to edit that comment" do
+					expect(page).to have_link("(Edit Comment)", href: edit_comment_path(@comment))
+
+					click_link "(Edit Comment)"
+
+					expect(current_path).to eq(edit_comment_path(@comment))
+				end
+			end
 
 			describe "Clicking delete" do
 				it "should delete the cart" do

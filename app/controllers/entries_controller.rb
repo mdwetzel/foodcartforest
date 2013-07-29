@@ -5,7 +5,10 @@ class EntriesController < ApplicationController
 		@entries = Entry.order("created_at desc").paginate page: params[:page],
 														   per_page: 10
 
-		@latest_comments = Comment.order("created_at desc").limit(5)
+	   	@cart_comments = Comment.order("created_at desc").limit(5)
+		@entry_comments = EntryComment.order("created_at desc").limit(5)
+
+		@latest_comments = @cart_comments.merge(@entry_comments)
 	end
 
 	def show
